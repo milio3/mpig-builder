@@ -1,0 +1,52 @@
+<!-- Modal de Exportar / Importar Código Compartible y JSON -->
+<div id="modal_share" class="modal-backdrop" style="display: none;">
+  <div class="modal-box" style="max-width: 650px;">
+    <div class="modal-header">
+      <h3 id="modal_share_title" style="color: #f8fafc; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+        Compartir Configuración de Habilidades
+      </h3>
+      <button class="btn-modal-close" onclick="closeShareModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Sección de Exportar -->
+      <div id="share_export_section">
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.85rem;">
+          Copia el código compartible compacto o descarga la definición JSON completa:
+        </p>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.8rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem;">
+            Código Compartible (Compacto):
+          </label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="export_share_code" class="form-control" readonly style="font-family: monospace; font-size: 0.82rem; background: #0b0f19; color: #38bdf8;" />
+            <button id="btn_copy_code" class="btn btn-primary" onclick="copyShareCode()">Copiar Código</button>
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem;">
+            Definición Estructurada en JSON:
+          </label>
+          <textarea id="export_json_area" class="form-control" rows="7" readonly style="font-family: monospace; font-size: 0.75rem; background: #0b0f19; color: #a5b4fc;"></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
+          <button class="btn btn-outline" onclick="downloadBuildJson()">Descargar Archivo .json</button>
+          <button class="btn btn-primary" onclick="copyBuildJson()">Copiar JSON</button>
+        </div>
+      </div>
+
+      <!-- Sección de Importar -->
+      <div id="share_import_section" style="display: none;">
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.85rem;">
+          Pega a continuación el código de build compartible o el bloque JSON exportado:
+        </p>
+        <textarea id="import_input_area" class="form-control" rows="6" placeholder="Pega aquí el código MPIG-B80-... o el texto JSON..." style="font-family: monospace; font-size: 0.8rem; background: #0b0f19;"></textarea>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
+          <button class="btn btn-outline" onclick="closeShareModal()">Cancelar</button>
+          <button class="btn btn-primary" onclick="applyImportedBuild()">Cargar Build</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

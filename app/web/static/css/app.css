@@ -1,0 +1,952 @@
+/* ==========================================================================
+   MPIG Builder - Estilos de Aplicación Standalone
+   Diseño Dark Fantasy Moderno, Compacto y Sin Barras de Desplazamiento
+   ========================================================================== */
+
+:root {
+  --bg-main: #090e1a;
+  --bg-card: #131d31;
+  --bg-header: #0f172a;
+  --border-color: #1e293b;
+  --border-highlight: #3b82f6;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --accent-gold: #f59e0b;
+  --accent-amber: #d97706;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.builder-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.4rem;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Barra Superior de Control Global
+   ========================================================================== */
+
+.skills-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, #162035 0%, #0d1525 100%);
+  border: 1px solid #233352;
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 0.85rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+  gap: 0.75rem;
+}
+
+.top-bar-level-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.top-bar-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-control {
+  background: #090e1a;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+  transition: border-color 0.15s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+
+.form-control-top {
+  width: 62px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #38bdf8;
+  padding: 0.25rem 0.4rem;
+}
+
+.top-bar-range {
+  width: 110px;
+  accent-color: #38bdf8;
+  cursor: pointer;
+}
+
+.quick-levels-group {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.btn-top-preset {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-top-preset:hover {
+  background: #334155;
+  color: #f8fafc;
+}
+
+.top-bar-info-group {
+  display: flex;
+  align-items: center;
+}
+
+.pts-badge-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #090e1a;
+  border: 1px solid #233352;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.pts-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.pts-val {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+}
+
+.top-bar-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Botones con estilo Tailwind / Moderno */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease-in-out;
+  line-height: 1;
+}
+
+.btn-primary { background: #3b82f6; color: #fff; }
+.btn-primary:hover { background: #2563eb; }
+
+.btn-outline { background: transparent; border: 1px solid #475569; color: #cbd5e1; }
+.btn-outline:hover { background: #334155; color: #fff; }
+
+.btn-tailwind-amber-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  color: #000000;
+  font-weight: 900;
+  font-size: 0.82rem;
+  padding: 0.42rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #fbbf24;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-tailwind-amber-solid:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.btn-tailwind-emerald {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #065f46;
+  border: 1px solid #10b981;
+  color: #d1fae5;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.42rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-tailwind-emerald:hover {
+  background: #047857;
+  color: #ffffff;
+}
+
+.btn-tailwind-cyan {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #155e75;
+  border: 1px solid #06b6d4;
+  color: #cffafe;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.42rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-tailwind-cyan:hover {
+  background: #0e7490;
+  color: #ffffff;
+}
+
+.btn-tailwind-indigo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #3730a3;
+  border: 1px solid #6366f1;
+  color: #e0e7ff;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.42rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-tailwind-indigo:hover {
+  background: #4338ca;
+  color: #ffffff;
+}
+
+.btn-tailwind-slate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #cbd5e1;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.42rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-tailwind-slate:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+.btn-tailwind-rose {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #881337;
+  border: 1px solid #f43f5e;
+  color: #ffe4e6;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.42rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-tailwind-rose:hover {
+  background: #9f1239;
+  color: #ffffff;
+}
+
+.tw-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.tw-icon-sm {
+  width: 12px;
+  height: 12px;
+}
+
+/* ==========================================================================
+   Contenedor Grid de Héroes (5 Columnas)
+   ========================================================================== */
+
+.skills-heroes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.65rem;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hero-column {
+  display: flex;
+  flex-direction: column;
+  background: #0d1525;
+  border: 1px solid #1c2b46;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 100%;
+}
+
+.hero-col-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.55rem;
+  background: linear-gradient(180deg, #131e33 0%, #0d1525 100%);
+  border-bottom: 1px solid #1c2b46;
+  flex-shrink: 0;
+}
+
+.hero-avatar-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 2px solid #3b82f6;
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.hero-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.hero-header-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  gap: 2px;
+}
+
+.hero-title-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
+}
+
+.hero-header-subrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.hero-points-display {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.btn-hero-auto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  font-size: 0.64rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.15s;
+}
+
+.btn-hero-auto:hover {
+  background: #f59e0b;
+  color: #000;
+}
+
+.hero-skill-rows {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 0.35rem 0.45rem;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.skill-row-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.skill-row-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.skill-slots-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+}
+
+/* ==========================================================================
+   Tarjetas de Habilidad (68px de alto, Alineación Horizontal y Botón MAX)
+   ========================================================================== */
+
+.skill-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  padding: 0.45rem 0.55rem;
+  min-height: 68px;
+  border-radius: 8px;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.18s ease-in-out;
+  position: relative;
+}
+
+/* Columna Izquierda del Tipo de Daño Activo / Espaciador Pasivo */
+.skill-type-col {
+  width: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.passive-placeholder {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.active-type-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tw-dmg-icon {
+  width: 17px;
+  height: 17px;
+}
+
+/* Paleta de Colores por Tipo de Daño */
+.elem-physical {
+  color: #cbd5e1;
+  filter: drop-shadow(0 0 3px rgba(203, 213, 225, 0.6));
+}
+
+.elem-fire {
+  color: #f97316;
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.85));
+}
+
+.elem-cold {
+  color: #38bdf8;
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.85));
+}
+
+.elem-lightning {
+  color: #facc15;
+  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.9));
+}
+
+.elem-chaos {
+  color: #c084fc;
+  filter: drop-shadow(0 0 4px rgba(192, 132, 252, 0.9));
+}
+
+/* Estados de Tarjeta */
+.skill-card.is-lit {
+  background: linear-gradient(180deg, #3d2415 0%, #25140b 100%);
+  border: 1.5px solid #854d2a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.skill-card.is-lit:hover {
+  border-color: #f59e0b;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.skill-card.is-lit .skill-icon-img {
+  opacity: 1;
+  filter: brightness(1.1);
+}
+
+.skill-card.is-lit .skill-level-badge {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.skill-card.is-dimmed {
+  background: linear-gradient(180deg, #1c110a 0%, #110905 100%);
+  border: 1.5px solid #2a180e;
+  box-shadow: none;
+  opacity: 0.42;
+  filter: brightness(0.65) saturate(0.6);
+}
+
+.skill-card.is-dimmed:hover {
+  opacity: 0.85;
+  filter: brightness(0.95);
+  border-color: #6b3e23;
+  transform: translateY(-1px);
+}
+
+.skill-card.is-dimmed .skill-icon-img {
+  opacity: 0.5;
+}
+
+.skill-card.is-dimmed .skill-level-badge {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.skill-card.is-capped {
+  border: 1.5px solid #f59e0b !important;
+  background: linear-gradient(180deg, #422910 0%, #261708 100%) !important;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
+}
+
+.skill-card.is-capped .skill-icon-img {
+  opacity: 1;
+  filter: brightness(1.15);
+}
+
+.skill-card.is-capped .skill-level-badge {
+  color: #fbbf24 !important;
+  font-weight: 800;
+  text-shadow: 0 1px 2px #000, 0 0 5px rgba(245, 158, 11, 0.7);
+}
+
+.skill-card.is-locked {
+  background: #140d08;
+  border: 1px solid #24150d;
+  opacity: 0.3;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+.skill-card.is-locked:hover {
+  transform: none;
+  border-color: #24150d;
+}
+
+.skill-lock-overlay {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.58rem;
+  background: rgba(0,0,0,0.85);
+  border-radius: 3px;
+  padding: 0 3px;
+  line-height: 1;
+  color: #fca5a5;
+}
+
+.skill-icon-frame {
+  width: 40px;
+  height: 40px;
+  background: #080503;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.85);
+  position: relative;
+}
+
+.skill-icon-img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transition: opacity 0.15s, filter 0.15s;
+}
+
+.skill-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 0;
+  flex: 1;
+  gap: 4px;
+  text-align: right;
+}
+
+.btn-card-max {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 2.5px 5.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-card-max:hover {
+  background: #f59e0b;
+  border-color: #d97706;
+  color: #000000;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.7);
+  transform: scale(1.06);
+}
+
+.btn-card-max:active {
+  transform: scale(0.96);
+}
+
+.skill-level-badge {
+  font-size: 0.84rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 1px 2px #000;
+  letter-spacing: 0.15px;
+}
+
+/* ==========================================================================
+   Tooltip Flotante del Juego (580px desahogado)
+   ========================================================================== */
+
+.skill-game-tooltip {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: none;
+  background: #0e2a38;
+  border: 2px solid #1a5e7b;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
+  display: flex;
+  gap: 16px;
+  max-width: 580px;
+  min-width: 440px;
+  font-family: inherit;
+  animation: fadeIn 0.1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.tip-preview-col {
+  flex: 0 0 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tip-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  line-height: 1.5;
+}
+
+.tip-stat-title {
+  color: #f8fafc;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.tip-cap-line {
+  color: #38bdf8;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+.tip-elem-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tip-elem-badge.phys { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid #64748b; }
+.tip-elem-badge.fire { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
+.tip-elem-badge.cold { background: rgba(6, 182, 212, 0.25); color: #38bdf8; border: 1px solid #06b6d4; }
+.tip-elem-badge.light { background: rgba(234, 179, 8, 0.25); color: #facc15; border: 1px solid #eab308; }
+.tip-elem-badge.chaos { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid #a855f7; }
+
+.tip-cd-line {
+  font-size: 0.80rem;
+  color: #94a3b8;
+}
+
+.tip-desc-text {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.55;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   Modales y Diálogos
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+}
+
+.modal-box {
+  background: #131d31;
+  border: 1px solid #334155;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
+  padding: 1.5rem;
+  width: 92%;
+  animation: modalPop 0.15s ease-out;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn-modal-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.btn-modal-close:hover {
+  color: #ffffff;
+}
+
+/* Lista de Builds Guardadas */
+.saved-builds-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 340px;
+  overflow-y: auto;
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+}
+
+.saved-build-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #131d31;
+  border: 1px solid #233352;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+  gap: 0.75rem;
+  transition: all 0.15s;
+}
+
+.saved-build-item:hover {
+  border-color: #38bdf8;
+  background: #16243d;
+}
+
+.saved-build-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.saved-build-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.saved-build-sub {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2px;
+}
+
+.saved-build-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* ==========================================================================
+   Notificación Toast
+   ========================================================================== */
+
+.skill-toast-notice {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1e1b4b;
+  border: 1.5px solid #f59e0b;
+  color: #fde68a;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease-out;
+  z-index: 100000;
+}
+
+.skill-toast-notice.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.unspent-warning-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  background: #090e1a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.65rem 0.85rem;
+}
+
+/* Loading spinner */
+.loading-placeholder {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #64748b;
+  height: 300px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="builder-container">
+  <!-- Barra de Herramientas Superior -->
+  {% include "components/top_bar.html" %}
+
+  <!-- Contenedor Principal: 5 Columnas de Héroes Distribuidas Uniformemente -->
+  <div class="skills-heroes-grid" id="skills_heroes_container">
+    <div class="loading-placeholder">
+      <div class="spinner"></div>
+      <p>Cargando datos maestros desde la base de datos...</p>
+    </div>
+  </div>
+
+  <!-- Modales Desacoplados -->
+  {% include "components/modal_save_build.html" %}
+  {% include "components/modal_load_build.html" %}
+  {% include "components/modal_share.html" %}
+  {% include "components/modal_unspent_warning.html" %}
+  {% include "components/floating_tooltip.html" %}
+</main>
+{% endblock %}
