@@ -1,50 +1,83 @@
-<!-- Modal de Exportar / Importar Código Compartible y JSON -->
-<div id="modal_share" class="modal-backdrop" style="display: none;">
-  <div class="modal-box" style="max-width: 650px;">
+<!-- Modal de Compartir: Exportar / Importar Configuración -->
+<div id="modal_share" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal_share_title">
+  <div class="modal-box modal-box-lg">
     <div class="modal-header">
-      <h3 id="modal_share_title" style="color: #f8fafc; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
-        Compartir Configuración de Habilidades
-      </h3>
-      <button class="btn-modal-close" onclick="closeShareModal()">&times;</button>
+      <div class="modal-title-cluster">
+        <div class="modal-icon-badge modal-icon-indigo" aria-hidden="true">
+          <svg class="tw-modal-icon" aria-hidden="true"><use href="#icon-share"></use></svg>
+        </div>
+        <div>
+          <h3 id="modal_share_title" class="modal-title" data-i18n="modal_share_title">Compartir e Intercambiar Builds</h3>
+          <span class="modal-subtitle" data-i18n="modal_share_sub">Transfiere tus composiciones mediante código compacto o archivo JSON</span>
+        </div>
+      </div>
+      <button type="button" class="btn-modal-close" onclick="closeShareModal()" aria-label="Cerrar modal">
+        <svg class="tw-close-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+      </button>
+    </div>
+
+    <!-- Navegación por Pestañas del Modal -->
+    <div class="modal-tab-nav" role="tablist">
+      <button type="button" id="tab_btn_export" class="modal-tab-btn active" onclick="switchShareTab('export')">
+        <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-download"></use></svg>
+        <span data-i18n="tab_export">Exportar Build</span>
+      </button>
+      <button type="button" id="tab_btn_import" class="modal-tab-btn" onclick="switchShareTab('import')">
+        <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-upload"></use></svg>
+        <span data-i18n="tab_import">Importar Build</span>
+      </button>
     </div>
 
     <div class="modal-body">
-      <!-- Sección de Exportar -->
+      <!-- Sección: Exportar -->
       <div id="share_export_section">
-        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.85rem;">
-          Copia el código compartible compacto o descarga la definición JSON completa:
-        </p>
-        <div style="margin-bottom: 0.85rem;">
-          <label style="font-size: 0.8rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem;">
-            Código Compartible (Compacto):
-          </label>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="export_share_code" class="form-control" readonly style="font-family: monospace; font-size: 0.82rem; background: #0b0f19; color: #38bdf8;" />
-            <button id="btn_copy_code" class="btn btn-primary" onclick="copyShareCode()">Copiar Código</button>
+        <div class="modal-form-group">
+          <label class="modal-label" data-i18n="label_share_code">Código Compacto de Compartir</label>
+          <div class="input-with-action">
+            <input type="text" id="export_share_code" class="form-control modal-input font-mono text-cyan" readonly />
+            <button type="button" id="btn_copy_code" class="btn-rpg btn-rpg-important-cyan" onclick="copyShareCode()">
+              <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-copy"></use></svg>
+              <span data-i18n="btn_copy_code">Copiar Código</span>
+            </button>
           </div>
         </div>
-        <div>
-          <label style="font-size: 0.8rem; color: #94a3b8; font-weight: 600; display: block; margin-bottom: 0.25rem;">
-            Definición Estructurada en JSON:
-          </label>
-          <textarea id="export_json_area" class="form-control" rows="7" readonly style="font-family: monospace; font-size: 0.75rem; background: #0b0f19; color: #a5b4fc;"></textarea>
+
+        <div class="modal-form-group">
+          <div class="label-row-between">
+            <label class="modal-label" data-i18n="label_json_def">Definición JSON Completa</label>
+            <span class="label-badge-dim">Schema v1.0</span>
+          </div>
+          <textarea id="export_json_area" class="form-control modal-input modal-textarea font-mono text-indigo" rows="6" readonly></textarea>
         </div>
-        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
-          <button class="btn btn-outline" onclick="downloadBuildJson()">Descargar Archivo .json</button>
-          <button class="btn btn-primary" onclick="copyBuildJson()">Copiar JSON</button>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-rpg btn-rpg-secondary" onclick="downloadBuildJson()">
+            <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-download"></use></svg>
+            <span data-i18n="btn_download_json">Descargar Archivo .json</span>
+          </button>
+          <button type="button" class="btn-rpg btn-rpg-primary" onclick="copyBuildJson()">
+            <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-copy"></use></svg>
+            <span data-i18n="btn_copy_json">Copiar JSON</span>
+          </button>
         </div>
       </div>
 
-      <!-- Sección de Importar -->
+      <!-- Sección: Importar -->
       <div id="share_import_section" style="display: none;">
-        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.85rem;">
-          Pega a continuación el código de build compartible o el bloque JSON exportado:
-        </p>
-        <textarea id="import_input_area" class="form-control" rows="6" placeholder="Pega aquí el código MPIG-B80-... o el texto JSON..." style="font-family: monospace; font-size: 0.8rem; background: #0b0f19;"></textarea>
-        
-        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
-          <button class="btn btn-outline" onclick="closeShareModal()">Cancelar</button>
-          <button class="btn btn-primary" onclick="applyImportedBuild()">Cargar Build</button>
+        <div class="modal-form-group">
+          <label class="modal-label" data-i18n="label_import_input">Pega tu Código o JSON de Build</label>
+          <p class="modal-help-text" data-i18n="help_import_input">
+            Admite tanto códigos compactos (ej. MPIG-B80-...) como bloques de exportación JSON estructurado.
+          </p>
+          <textarea id="import_input_area" class="form-control modal-input modal-textarea font-mono" rows="6" data-i18n-placeholder="placeholder_import_input" placeholder="Pega aquí el código MPIG-B80-... o el bloque JSON exportado..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-rpg btn-rpg-secondary" onclick="closeShareModal()" data-i18n="btn_cancel">Cancelar</button>
+          <button type="button" class="btn-rpg btn-rpg-primary" onclick="applyImportedBuild()">
+            <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-check-circle"></use></svg>
+            <span data-i18n="btn_apply_import">Cargar e Importar Build</span>
+          </button>
         </div>
       </div>
     </div>

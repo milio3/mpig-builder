@@ -14,3 +14,6 @@ logs/
 .idea/
 .vscode/
 .pytest_cache/
+baseline*.png
+scratch/
+*.log

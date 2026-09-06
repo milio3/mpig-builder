@@ -17,6 +17,7 @@ class AbilityDTO(BaseModel):
     unit: str
     max_level: int
     description: str
+    description_en: Optional[str] = None
     is_flat: bool
 
 class HeroActiveDTO(BaseModel):
@@ -39,6 +40,7 @@ class HeroActiveDTO(BaseModel):
     step_value: float
     status_prob: Optional[int] = None
     description: str
+    description_en: Optional[str] = None
 
 class HeroDTO(BaseModel):
     model_config = ConfigDict(from_attributes=True)

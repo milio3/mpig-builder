@@ -84,9 +84,7 @@ python -m pytest -v
 ```
 
 Tests incluidos:
-- `tests/test_health.py`: Endpoints normativos `/health` y `/ready`.
-- `tests/test_meta_api.py`: Integridad de héroes, habilidades y elementos.
-- `tests/test_builds_api.py`: Ciclo de vida CRUD completo de builds en SQLite.
+- `tests/test_app.py`: Pruebas de integración para `/api/v1/meta`, flujo completo de builds (creación, votación, ordenación y solicitud de borrado) y renderizado de la interfaz web.
 
 ---
 

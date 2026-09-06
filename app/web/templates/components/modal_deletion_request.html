@@ -1,0 +1,48 @@
+<!-- Modal para Solicitar Borrado de Build con Auditoría -->
+<div id="modal_deletion_request" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal_deletion_title">
+  <div class="modal-box modal-box-sm">
+    <div class="modal-header">
+      <div class="modal-title-cluster">
+        <div class="modal-icon-badge modal-icon-rose" aria-hidden="true">
+          <svg class="tw-modal-icon" aria-hidden="true"><use href="#icon-warning"></use></svg>
+        </div>
+        <div>
+          <h3 id="modal_deletion_title" class="modal-title" data-i18n="modal_deletion_title">Solicitar Borrado</h3>
+          <span class="modal-subtitle" data-i18n="modal_deletion_sub">Auditoría y control de contenido</span>
+        </div>
+      </div>
+      <button type="button" class="btn-modal-close" onclick="closeDeletionRequestModal()" aria-label="Cerrar modal">
+        <svg class="tw-close-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+      </button>
+    </div>
+
+    <form id="form_deletion_request" onsubmit="handleDeletionRequestSubmit(event)" class="modal-body">
+      <input type="hidden" id="deletion_target_build_id" value="" />
+
+      <div class="deletion-target-info">
+        <span class="deletion-target-label" data-i18n="deletion_target_label">Build a reportar:</span>
+        <div class="deletion-target-content">
+          <strong class="deletion-target-name" id="deletion_target_build_title">--</strong>
+          <span class="deletion-target-code" id="deletion_target_build_code">--</span>
+        </div>
+      </div>
+
+      <div class="modal-form-group">
+        <label for="deletion_request_reason" class="modal-label" data-i18n="deletion_reason_label">
+          Motivo o justificación del borrado <span class="req-star">*</span>
+        </label>
+        <textarea id="deletion_request_reason" class="form-control modal-input modal-textarea" rows="3" required minlength="5" maxlength="500" data-i18n-placeholder="placeholder_deletion_reason" placeholder="Indica el motivo (ej: build duplicada, contenido desactualizado, petición del autor)..."></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modern btn-modern-sec" onclick="closeDeletionRequestModal()" data-i18n="btn_cancel">Cancelar</button>
+        <button type="submit" id="btn_submit_deletion" class="btn-modern btn-modern-danger">
+          <svg class="tw-icon-sm" aria-hidden="true">
+            <use href="#icon-warning"></use>
+          </svg>
+          <span data-i18n="btn_send_deletion_request">Enviar Solicitud</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

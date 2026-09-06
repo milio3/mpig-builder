@@ -1,40 +1,77 @@
 <!-- Modal para Guardar Build en la Base de Datos SQLite -->
-<div id="modal_save_build" class="modal-backdrop" style="display: none;">
-  <div class="modal-box" style="max-width: 520px;">
+<div id="modal_save_build" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal_save_title">
+  <div class="modal-box modal-box-md">
     <div class="modal-header">
-      <h3 style="display: flex; align-items: center; gap: 0.5rem; margin: 0; color: #34d399; font-size: 1.15rem; font-weight: 800;">
-        <svg class="tw-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-        </svg>
-        <span>Guardar Build en Base de Datos</span>
-      </h3>
-      <button class="btn-modal-close" onclick="closeSaveBuildModal()">&times;</button>
+      <div class="modal-title-cluster">
+        <div class="modal-icon-badge modal-icon-emerald" aria-hidden="true">
+          <svg class="tw-modal-icon" aria-hidden="true"><use href="#icon-save"></use></svg>
+        </div>
+        <div>
+          <h3 id="modal_save_title" class="modal-title" data-i18n="modal_save_title">Guardar build</h3>
+          <span class="modal-subtitle" data-i18n="modal_save_sub">Guarda y comparte tus builds</span>
+        </div>
+      </div>
+      <button type="button" class="btn-modal-close" onclick="closeSaveBuildModal()" aria-label="Cerrar modal">
+        <svg class="tw-close-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+      </button>
     </div>
 
     <form id="form_save_build" onsubmit="handleSaveBuildSubmit(event)" class="modal-body">
-      <div style="margin-bottom: 0.85rem;">
-        <label for="save_build_title" style="display: block; font-size: 0.82rem; font-weight: 700; color: #cbd5e1; margin-bottom: 0.35rem;">
-          Título de la Build *
+      <div class="modal-form-group">
+        <label for="save_build_title" class="modal-label" data-i18n="modal_save_label_name">
+          Nombre de la Build <span class="req-star">*</span>
         </label>
-        <input type="text" id="save_build_title" class="form-control" required placeholder="Ej: Build Endgame Fuego Nv.80" maxlength="120" style="width: 100%;" />
+        <input type="text" id="save_build_title" class="form-control modal-input" required data-i18n-placeholder="placeholder_build_name" placeholder="Ej: Meta Endgame 80 - Fuego y Crítico" maxlength="120" />
       </div>
 
-      <div style="margin-bottom: 0.85rem;">
-        <label for="save_build_desc" style="display: block; font-size: 0.82rem; font-weight: 700; color: #cbd5e1; margin-bottom: 0.35rem;">
-          Descripción / Notas Tácticas (Opcional)
+      <!-- Fila de Autor y Tipo de Build a la Misma Altura -->
+      <div class="modal-form-row-2col">
+        <!-- Campo de Autor -->
+        <div class="modal-form-group">
+          <label for="save_build_author" class="modal-label">
+            <span data-i18n="modal_save_label_author">Autor</span> <span class="opt-tag">(<span data-i18n="modal_optional">Opcional</span>)</span>
+          </label>
+          <input type="text" id="save_build_author" class="form-control modal-input" data-i18n-placeholder="placeholder_build_author" placeholder="Tu nombre" maxlength="60" />
+        </div>
+
+        <!-- Selector de Tipo de Build -->
+        <div class="modal-form-group">
+          <label for="save_build_purpose" class="modal-label" data-i18n="modal_save_label_purpose">
+            Tipo de build
+          </label>
+          <select id="save_build_purpose" class="modal-input modal-select modal-select-purpose purpose-opt-advance" onchange="handlePurposeSelectChange(this)">
+            <option value="Avance" class="purpose-opt-advance" data-i18n="purpose_advance">Avance</option>
+            <option value="Jefes" class="purpose-opt-boss" data-i18n="purpose_boss">Jefes</option>
+            <option value="Farming" class="purpose-opt-farm" data-i18n="purpose_farm">Farming</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-form-group">
+        <label for="save_build_desc" class="modal-label">
+          <span data-i18n="modal_save_label_desc">Notas Tácticas y Estrategia</span> <span class="opt-tag">(<span data-i18n="modal_optional">Opcional</span>)</span>
         </label>
-        <textarea id="save_build_desc" class="form-control" rows="3" placeholder="Detalles de estrategia, roles, equipo recomendado..." maxlength="500" style="width: 100%; font-family: inherit; font-size: 0.82rem;"></textarea>
+        <textarea id="save_build_desc" class="form-control modal-input modal-textarea" rows="2" data-i18n-placeholder="placeholder_build_desc" placeholder="Detalles de rotación, sinergias elementales o equipo recomendado..." maxlength="500"></textarea>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 0.6rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.25rem;">
-        <span style="font-size: 0.8rem; color: #94a3b8;">Nivel de Grupo a Registrar:</span>
-        <span style="font-size: 0.92rem; font-weight: 800; color: #38bdf8;" id="save_build_level_display">Nv. 80</span>
+      <!-- Resumen de Héroes y Nivel Organizado en Rejilla Táctica -->
+      <div class="build-save-summary-card">
+        <div class="summary-card-header">
+          <span class="summary-meta-label" data-i18n="modal_save_summary_level">Nivel Registrado:</span>
+          <strong class="summary-level-badge" id="save_build_level_display">NV. 80</strong>
+        </div>
+        <div class="summary-party-grid-5" id="save_build_party_summary">
+          <!-- Inyectado dinámicamente con los 5 héroes en sus colores correspondientes -->
+        </div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-        <button type="button" class="btn btn-outline" onclick="closeSaveBuildModal()">Cancelar</button>
-        <button type="submit" id="btn_submit_save" class="btn-tailwind-emerald">
-          <span>💾 Confirmar y Guardar</span>
+      <div class="modal-footer">
+        <button type="button" class="btn-modern btn-modern-sec" onclick="closeSaveBuildModal()" data-i18n="btn_cancel">Cancelar</button>
+        <button type="submit" id="btn_submit_save" class="btn-modern btn-modern-success">
+          <svg class="tw-icon-sm" aria-hidden="true">
+            <use href="#icon-save"></use>
+          </svg>
+          <span data-i18n="btn_confirm_save">Guardar build</span>
         </button>
       </div>
     </form>

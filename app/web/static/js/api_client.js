@@ -17,10 +17,12 @@ const ApiClient = {
   },
 
   /**
-   * Lista las builds guardadas en la base de datos
+   * Lista las builds guardadas en la base de datos (con ordenación 'votes' o 'recent' y límite)
    */
-  async listBuilds() {
-    const res = await fetch(`${this.baseUrl}/builds`);
+  async listBuilds(options = {}) {
+    const sort = options.sort || 'votes';
+    const limit = options.limit || 50;
+    const res = await fetch(`${this.baseUrl}/builds?sort=${encodeURIComponent(sort)}&limit=${encodeURIComponent(limit)}`);
     if (!res.ok) {
       throw new Error(`Error al listar builds: ${res.statusText}`);
     }
@@ -41,6 +43,38 @@ const ApiClient = {
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.detail || 'Error al guardar la build.');
+    }
+    return await res.json();
+  },
+
+  /**
+   * Registra un voto a favor de una build
+   */
+  async voteBuild(buildId) {
+    const res = await fetch(`${this.baseUrl}/builds/${buildId}/vote`, {
+      method: 'POST'
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Error al registrar el voto.');
+    }
+    return await res.json();
+  },
+
+  /**
+   * Registra una solicitud de borrado motivada en la tabla de auditoría
+   */
+  async requestDeletion(buildId, reason) {
+    const res = await fetch(`${this.baseUrl}/builds/${buildId}/deletion-request`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ reason })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Error al enviar la solicitud de borrado.');
     }
     return await res.json();
   },
@@ -70,3 +104,4 @@ const ApiClient = {
     return true;
   }
 };
+

@@ -1,0 +1,68 @@
+<!-- Componente: Barra de Control Táctica Moderna tipo MarketItems -->
+<nav class="app-control-bar" id="app_control_bar" role="toolbar" aria-label="Control de grupo y estado de la party">
+  <div class="control-bar-inner">
+    <!-- SECCIÓN IZQUIERDA: CONTROL DE NIVEL Y HABILIDADES ACTIVAS -->
+    <div class="control-left-cluster">
+      <!-- Control de Nivel de Grupo -->
+      <div class="group-level-panel group-level-main-panel">
+        <div class="level-label-box">
+          <svg class="tw-icon-level-label" aria-hidden="true"><use href="#icon-party"></use></svg>
+          <span class="level-title" data-i18n="group_level">Nivel Grupo:</span>
+          <div class="level-input-wrap">
+            <input type="number" id="common_hero_level" class="level-num-input is-readonly-indicator" value="80" min="5" max="100" readonly aria-label="Nivel numérico" title="Nivel seleccionado mediante el slider" />
+            <span class="level-unit" data-i18n="level_abbr">NV</span>
+          </div>
+        </div>
+
+        <div class="level-slider-wrap">
+          <input type="range" id="common_hero_level_range" min="5" max="100" step="5" value="80" class="modern-slider" aria-label="Selector de nivel deslizante" />
+          <div class="preset-buttons-wrap" role="group" aria-label="Presets de nivel">
+            <button type="button" class="btn-preset" onclick="setCommonHeroLevel(40)">40</button>
+            <button type="button" class="btn-preset" onclick="setCommonHeroLevel(60)">60</button>
+            <button type="button" class="btn-preset" onclick="setCommonHeroLevel(80)">80</button>
+            <button type="button" class="btn-preset" onclick="setCommonHeroLevel(100)">100</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control de Habilidades Activas Desbloqueadas -->
+      <div class="group-level-panel actives-control-panel">
+        <div class="level-label-box actives-label-box">
+          <svg class="tw-icon-actives-input" aria-hidden="true"><use href="#icon-bolt"></use></svg>
+          <span class="level-title" data-i18n="active_skills_label">Habilidades activas desbloqueadas</span>
+        </div>
+
+        <div class="preset-buttons-wrap actives-preset-wrap" role="group" aria-label="Selector de habilidades activas desbloqueadas">
+          <button type="button" class="btn-preset btn-preset-active-limit" data-limit="1" onclick="setActiveSkillsLimit(1)">1</button>
+          <button type="button" class="btn-preset btn-preset-active-limit" data-limit="2" onclick="setActiveSkillsLimit(2)">2</button>
+          <button type="button" class="btn-preset btn-preset-active-limit" data-limit="3" onclick="setActiveSkillsLimit(3)">3</button>
+          <button type="button" class="btn-preset btn-preset-active-limit is-active" data-limit="4" onclick="setActiveSkillsLimit(4)">4</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN DERECHA: BOTONERA DE ACCIÓN LIMPIA -->
+    <div class="control-right-cluster">
+      <div class="control-actions-group" role="toolbar" aria-label="Operaciones de Build">
+        <!-- Botón Biblioteca Destacado -->
+        <button type="button" id="btn_open_library" class="btn-modern btn-modern-sec btn-library-accent btn-control-library" onclick="openLoadBuildModal()" data-i18n-title="btn_library_title" title="Ver biblioteca completa de builds">
+          <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-library"></use></svg>
+          <span data-i18n="btn_library">Biblioteca</span>
+        </button>
+
+        <!-- Botón Guardar BD con tono verde (success) -->
+        <button type="button" id="btn_save_db" class="btn-modern btn-modern-success" onclick="openSaveBuildModal()" data-i18n-title="btn_save_title" title="Guardar build en SQLite">
+          <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-save"></use></svg>
+          <span data-i18n="btn_save">Guardar BD</span>
+        </button>
+
+        <!-- Botón Reset -->
+        <button type="button" id="btn_reset_all_skills" class="btn-modern btn-modern-danger" onclick="resetAllHeroesSkills()" data-i18n-title="btn_reset_title" title="Reiniciar puntos">
+          <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-reset"></use></svg>
+          <span data-i18n="btn_reset">Reset</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+

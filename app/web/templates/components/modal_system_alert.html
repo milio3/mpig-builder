@@ -1,0 +1,33 @@
+<!-- Modal Universal para Alertas y Avisos del Sistema con Estilo Web -->
+<div id="modal_system_alert" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal_system_alert_title">
+  <div class="modal-box modal-box-sm">
+    <div class="modal-header">
+      <div class="modal-title-cluster">
+        <div class="modal-icon-badge modal-icon-cyan" id="modal_system_alert_icon_badge" aria-hidden="true">
+          <svg class="tw-modal-icon" id="modal_system_alert_svg_icon">
+            <use href="#icon-info"></use>
+          </svg>
+        </div>
+        <div>
+          <h3 id="modal_system_alert_title" class="modal-title">Aviso del Sistema</h3>
+          <span id="modal_system_alert_sub" class="modal-subtitle">Notificación de la aplicación</span>
+        </div>
+      </div>
+      <button type="button" class="btn-modal-close" onclick="closeSystemAlertModal()" aria-label="Cerrar ventana">
+        <svg class="tw-close-icon">
+          <use href="#icon-close"></use>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p id="modal_system_alert_msg" class="modal-desc-txt" style="margin: 0; font-size: 0.85rem; line-height: 1.5; color: #f1f5f9;"></p>
+
+      <div class="modal-footer" style="padding-top: 0.65rem; margin-top: 0.5rem; justify-content: flex-end;">
+        <button type="button" id="btn_modal_system_alert_ok" class="btn-modern btn-modern-sec" onclick="closeSystemAlertModal()">
+          <span>Aceptar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

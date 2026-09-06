@@ -1,30 +1,54 @@
-<!-- Modal para Listar y Cargar Builds Guardadas en SQLite -->
-<div id="modal_load_build" class="modal-backdrop" style="display: none;">
-  <div class="modal-box" style="max-width: 680px;">
+<!-- Modal para Listar y Cargar Builds Guardadas (Build Library) -->
+<div id="modal_load_build" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal_load_title">
+  <div class="modal-box modal-box-xl">
     <div class="modal-header">
-      <h3 style="display: flex; align-items: center; gap: 0.5rem; margin: 0; color: #38bdf8; font-size: 1.15rem; font-weight: 800;">
-        <svg class="tw-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776" />
-        </svg>
-        <span>Builds Guardadas en Base de Datos</span>
-      </h3>
-      <button class="btn-modal-close" onclick="closeLoadBuildModal()">&times;</button>
+      <div class="modal-title-cluster">
+        <div class="modal-icon-badge modal-icon-cyan" aria-hidden="true">
+          <svg class="tw-modal-icon" aria-hidden="true"><use href="#icon-library"></use></svg>
+        </div>
+        <div>
+          <h3 id="modal_load_title" class="modal-title" data-i18n="modal_load_title">Biblioteca de Builds Guardadas</h3>
+          <span class="modal-subtitle" data-i18n="modal_load_sub">Librería de builds de My party is Grinding</span>
+        </div>
+      </div>
+      <button type="button" class="btn-modal-close" onclick="closeLoadBuildModal()" aria-label="Cerrar modal">
+        <svg class="tw-close-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+      </button>
     </div>
 
     <div class="modal-body">
-      <p style="font-size: 0.84rem; color: #94a3b8; margin-bottom: 0.75rem;">
-        Selecciona una configuración guardada para cargarla inmediatamente en el planificador:
-      </p>
+      <!-- Barra Fija de Filtro y Búsqueda en la Biblioteca -->
+      <div class="library-filter-bar">
+        <div class="library-search-wrap">
+          <svg class="tw-search-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+          <input type="search" id="library_search_input" class="form-control library-search-input" data-i18n-placeholder="library_search_placeholder" placeholder="Buscar build por nombre..." oninput="filterBuildsList(this.value)" />
+        </div>
 
+        <div class="library-sort-wrap">
+          <select id="library_sort_select" class="library-sort-select" onchange="changeLibrarySort(this.value)" title="Filtrar u ordenar builds">
+            <option value="recent" data-i18n="filter_recent" selected>Últimas builds</option>
+            <option value="level_desc" data-i18n="filter_level_desc">Nivel descendente</option>
+            <option value="votes" data-i18n="filter_votes">Más votadas</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-modern btn-modern-sec btn-sm" onclick="openSaveBuildModalFromLibrary()" data-i18n-title="btn_save_title" title="Guardar la build actual como nueva">
+          <svg class="tw-icon-sm" aria-hidden="true"><use href="#icon-plus"></use></svg>
+          <span data-i18n="btn_new_build">Nueva Build</span>
+        </button>
+      </div>
+
+      <!-- Contenedor Dinámico de Cards de la Biblioteca -->
       <div id="saved_builds_list_container" class="saved-builds-list">
-        <!-- Rellenado dinámicamente vía API -->
-        <div style="text-align: center; padding: 1.5rem; color: #64748b;">
-          Cargando builds desde la base de datos...
+        <!-- Renderizado dinámicamente -->
+        <div class="library-loading-state">
+          <div class="spinner"></div>
+          <span data-i18n="library_loading">Consultando biblioteca de SQLite...</span>
         </div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
-        <button type="button" class="btn btn-outline" onclick="closeLoadBuildModal()">Cerrar</button>
+      <div class="modal-footer">
+        <button type="button" class="btn-rpg btn-rpg-secondary" onclick="closeLoadBuildModal()" data-i18n="btn_close">Cerrar</button>
       </div>
     </div>
   </div>

@@ -11,6 +11,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from app.core.config import settings
 from app.core.database import engine, Base
 from app.api.health import router as health_router
@@ -25,7 +26,24 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, "web", "templates")
 async def lifespan(app: FastAPI):
     # Asegurar que las tablas de la base de datos existan
     Base.metadata.create_all(bind=engine)
+    
+    # Migración automática de columnas en la tabla builds
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text("PRAGMA table_info(builds)")).fetchall()
+            col_names = [r[1] for r in result]
+            if "author" not in col_names:
+                conn.execute(text("ALTER TABLE builds ADD COLUMN author VARCHAR(80) DEFAULT 'Anónimo'"))
+            if "purpose" not in col_names:
+                conn.execute(text("ALTER TABLE builds ADD COLUMN purpose VARCHAR(30) DEFAULT 'Avance'"))
+            if "votes" not in col_names:
+                conn.execute(text("ALTER TABLE builds ADD COLUMN votes INTEGER DEFAULT 0"))
+            conn.commit()
+    except Exception as e:
+        print(f"Aviso durante migración de tabla builds: {e}")
+
     yield
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

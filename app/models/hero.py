@@ -33,6 +33,7 @@ class Ability(Base):
     unit = Column(String, nullable=False)
     max_level = Column(Integer, nullable=False)
     description = Column(Text, nullable=False)
+    description_en = Column(Text, nullable=True)
     is_flat = Column(Boolean, nullable=False, default=False)
 
     hero_associations = relationship("HeroPassive", back_populates="ability")
@@ -68,6 +69,7 @@ class HeroActive(Base):
     step_value = Column(Float, nullable=False, default=0.0)
     status_prob = Column(Integer, nullable=True)
     description = Column(Text, nullable=False)
+    description_en = Column(Text, nullable=True)
 
     hero = relationship("Hero", back_populates="actives")
 

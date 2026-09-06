@@ -1,0 +1,35 @@
+<!-- Modal de Confirmación: Reinicio Destructivo de Habilidades -->
+<div id="modal_confirm_reset" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal_reset_title">
+  <div class="modal-box modal-box-sm border-rose">
+    <div class="modal-header">
+      <div class="modal-title-cluster">
+        <div class="modal-icon-badge modal-icon-rose" aria-hidden="true">
+          <svg class="tw-modal-icon" aria-hidden="true"><use href="#icon-reset"></use></svg>
+        </div>
+        <div>
+          <h3 id="modal_reset_title" class="modal-title text-rose" data-i18n="modal_reset_title">¿Reiniciar Habilidades?</h3>
+          <span class="modal-subtitle" data-i18n="modal_reset_sub">Restablecimiento total de talentos</span>
+        </div>
+      </div>
+      <button type="button" class="btn-modal-close" onclick="closeConfirmResetModal()" aria-label="Cerrar modal">
+        <svg class="tw-close-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-desc-txt" data-i18n="modal_reset_desc">
+        Esta acción restablecerá a 0 todos los puntos invertidos en las habilidades de los 5 personajes. Los puntos se reintegrarán inmediatamente a tu reserva para que puedas redistribuirlos.
+      </p>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modern btn-modern-sec" onclick="closeConfirmResetModal()" data-i18n="btn_cancel">Cancelar</button>
+        <button type="button" class="btn-modern btn-modern-danger" onclick="executeResetAllConfirmed()">
+          <svg class="tw-icon-sm" aria-hidden="true">
+            <use href="#icon-trash"></use>
+          </svg>
+          <span data-i18n="btn_confirm_reset">Confirmar Reinicio</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

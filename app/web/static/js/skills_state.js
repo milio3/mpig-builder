@@ -8,6 +8,7 @@ const SkillState = {
 
   state: {
     heroLevel: 80,
+    maxActivesPerHero: 4,
     builds: {
       'KNIGHT': { actives: {}, passives: {} },
       'WARRIOR': { actives: {}, passives: {} },
@@ -17,9 +18,38 @@ const SkillState = {
     }
   },
 
+  saveToStorage() {
+    try {
+      localStorage.setItem('mpig_builder_autosave', JSON.stringify(this.state));
+    } catch (e) {
+      console.warn('No se pudo autoguardar en localStorage', e);
+    }
+  },
+
+  loadFromStorage() {
+    try {
+      const raw = localStorage.getItem('mpig_builder_autosave');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.builds) {
+          this.state.heroLevel = parsed.heroLevel || 80;
+          this.state.maxActivesPerHero = parsed.maxActivesPerHero || 4;
+          this.state.builds = parsed.builds;
+          return true;
+        }
+      }
+    } catch (e) {
+      console.warn('Error al cargar autosave', e);
+    }
+    return false;
+  },
+
   init(data) {
     this.masterData = data;
-    this.resetAll();
+    const restored = this.loadFromStorage();
+    if (!restored) {
+      this.resetAll();
+    }
   },
 
   getPassiveCurrentCap(finalMax, heroLevel) {
@@ -53,38 +83,19 @@ const SkillState = {
     newLevel = Math.max(1, Math.min(100, parseInt(newLevel) || 80));
     this.state.heroLevel = newLevel;
 
-    // Ajustar niveles de pasivas que pudieran superar el nuevo tope
-    if (this.masterData) {
-      Object.keys(this.state.builds).forEach(hId => {
-        const hero = this.masterData.heroes[hId];
-        const hb = this.state.builds[hId];
+    // NO borramos las habilidades marcadas por el usuario aunque baje el nivel
+    // para que no se pierdan sus puntos ni su build configurada.
+    this.saveToStorage();
 
-        // Verificar activas desbloqueadas
-        hero.actives.forEach(act => {
-          if (newLevel < act.unlock_level) {
-            hb.actives[act.id] = 0;
-          }
-        });
-
-        // Verificar pasivas desbloqueadas y topes
-        hero.passives.forEach((abId, pIdx) => {
-          const pKey = 'P' + (pIdx + 1);
-          const abInfo = this.masterData.abilities[String(abId)];
-          const unlockLvl = this.masterData.row_unlock_levels.find((ul, r) => 
-            this.masterData.passive_ids_by_row[r].includes(pIdx + 1)
-          ) || 1;
-
-          if (newLevel < unlockLvl) {
-            hb.passives[pKey] = 0;
-          } else {
-            const cap = this.getPassiveCurrentCap(abInfo.max_level, newLevel);
-            if ((hb.passives[pKey] || 0) > cap) {
-              hb.passives[pKey] = cap;
-            }
-          }
-        });
-      });
+    if (window.renderSkillPlanner) {
+      window.renderSkillPlanner();
     }
+  },
+
+  setActiveSkillsLimit(limit) {
+    limit = Math.max(1, Math.min(4, parseInt(limit, 10) || 4));
+    this.state.maxActivesPerHero = limit;
+    this.saveToStorage();
 
     if (window.renderSkillPlanner) {
       window.renderSkillPlanner();
@@ -113,6 +124,7 @@ const SkillState = {
       const currentLvl = hb.passives[key] || 0;
       if (currentLvl < cap) {
         hb.passives[key] = currentLvl + 1;
+        this.saveToStorage();
         if (window.renderSkillPlanner) window.renderSkillPlanner();
       }
     } else {
@@ -120,12 +132,17 @@ const SkillState = {
       if (this.state.heroLevel < actSkill.unlock_level) return;
 
       const currentLvl = hb.actives[key] || 0;
+      const maxActives = this.state.maxActivesPerHero || 4;
       if (currentLvl === 0) {
-        // Regla: Máximo 4 habilidades activas equipadas por personaje
+        // Regla: Máximo de habilidades activas equipadas por personaje
         const activeCount = Object.keys(hb.actives).filter(k => (hb.actives[k] || 0) > 0).length;
-        if (activeCount >= 4) {
+        if (activeCount >= maxActives) {
           if (window.showSkillToastNotice) {
-            window.showSkillToastNotice(`⚠️ Límite: ${hero.name_en || hero.name} solo puede equipar 4 habilidades activas simultáneamente.`);
+            const hName = window.I18N && window.I18N.currentLang === 'en' ? (hero.name_en || hero.name) : hero.name;
+            const msg = window.I18N
+              ? window.I18N.t('skill_active_limit_toast', hName, maxActives)
+              : `¡Límite alcanzado! ${hName} ya tiene equipadas ${maxActives} habilidades activas.`;
+            window.showSkillToastNotice(msg);
           }
           return;
         }
@@ -133,6 +150,7 @@ const SkillState = {
 
       if (currentLvl < actSkill.max_level) {
         hb.actives[key] = currentLvl + 1;
+        this.saveToStorage();
         if (window.renderSkillPlanner) window.renderSkillPlanner();
       }
     }
@@ -146,12 +164,14 @@ const SkillState = {
       const currentLvl = hb.passives[key] || 0;
       if (currentLvl > 0) {
         hb.passives[key] = currentLvl - 1;
+        this.saveToStorage();
         if (window.renderSkillPlanner) window.renderSkillPlanner();
       }
     } else {
       const currentLvl = hb.actives[key] || 0;
       if (currentLvl > 0) {
         hb.actives[key] = currentLvl - 1;
+        this.saveToStorage();
         if (window.renderSkillPlanner) window.renderSkillPlanner();
       }
     }
@@ -180,6 +200,7 @@ const SkillState = {
       if (needed > 0) {
         const toAdd = Math.min(needed, ptsRemaining);
         hb.passives[key] = currentLvl + toAdd;
+        this.saveToStorage();
         if (window.renderSkillPlanner) window.renderSkillPlanner();
       }
     } else {
@@ -187,12 +208,17 @@ const SkillState = {
       if (this.state.heroLevel < actSkill.unlock_level) return;
 
       const currentLvl = hb.actives[key] || 0;
+      const maxActives = this.state.maxActivesPerHero || 4;
       if (currentLvl === 0) {
-        // Regla: Máximo 4 habilidades activas equipadas por personaje
+        // Regla: Máximo de habilidades activas equipadas por personaje
         const activeCount = Object.keys(hb.actives).filter(k => (hb.actives[k] || 0) > 0).length;
-        if (activeCount >= 4) {
+        if (activeCount >= maxActives) {
           if (window.showSkillToastNotice) {
-            window.showSkillToastNotice(`⚠️ Límite: ${hero.name_en || hero.name} solo puede equipar 4 habilidades activas simultáneamente.`);
+            const hName = window.I18N && window.I18N.currentLang === 'en' ? (hero.name_en || hero.name) : hero.name;
+            const msg = window.I18N
+              ? window.I18N.t('skill_active_limit_toast', hName, maxActives)
+              : `¡Límite alcanzado! ${hName} ya tiene equipadas ${maxActives} habilidades activas.`;
+            window.showSkillToastNotice(msg);
           }
           return;
         }
@@ -202,6 +228,7 @@ const SkillState = {
       if (needed > 0) {
         const toAdd = Math.min(needed, ptsRemaining);
         hb.actives[key] = currentLvl + toAdd;
+        this.saveToStorage();
         if (window.renderSkillPlanner) window.renderSkillPlanner();
       }
     }
@@ -211,8 +238,9 @@ const SkillState = {
     if (!this.masterData) return;
     const hero = this.masterData.heroes[heroId];
     const hb = this.state.builds[heroId];
+    const maxActives = this.state.maxActivesPerHero || 4;
 
-    // 1. Determinar qué 4 activas maximizar (prioridad a las ya iniciadas)
+    // 1. Determinar qué activas maximizar (prioridad a las ya iniciadas)
     const selectedActives = [];
     hero.actives.forEach(act => {
       if ((hb.actives[act.id] || 0) > 0) {
@@ -220,11 +248,11 @@ const SkillState = {
       }
     });
 
-    if (selectedActives.length < 4) {
+    if (selectedActives.length < maxActives) {
       for (const act of hero.actives) {
         if (!selectedActives.includes(act.id) && this.state.heroLevel >= act.unlock_level) {
           selectedActives.push(act.id);
-          if (selectedActives.length >= 4) break;
+          if (selectedActives.length >= maxActives) break;
         }
       }
     }
@@ -260,15 +288,18 @@ const SkillState = {
       }
     });
 
+    this.saveToStorage();
     if (window.renderSkillPlanner) window.renderSkillPlanner();
   },
 
   maxAllHeroesSkills() {
     ['KNIGHT', 'WARRIOR', 'ASSASSIN', 'ARCHER', 'MAGE'].forEach(hId => this.maxHeroSkills(hId));
+    this.saveToStorage();
   },
 
   resetHero(heroId) {
     this.state.builds[heroId] = { actives: {}, passives: {} };
+    this.saveToStorage();
     if (window.renderSkillPlanner) window.renderSkillPlanner();
   },
 
@@ -276,6 +307,7 @@ const SkillState = {
     ['KNIGHT', 'WARRIOR', 'ASSASSIN', 'ARCHER', 'MAGE'].forEach(hId => {
       this.state.builds[hId] = { actives: {}, passives: {} };
     });
+    this.saveToStorage();
     if (window.renderSkillPlanner) window.renderSkillPlanner();
   }
 };

@@ -2,22 +2,116 @@
 
 {% block content %}
 <main class="builder-container">
-  <!-- Barra de Herramientas Superior -->
+  <!-- 1. Cabecera Principal Limpia (Logo e Idioma) -->
   {% include "components/top_bar.html" %}
 
-  <!-- Contenedor Principal: 5 Columnas de Héroes Distribuidas Uniformemente -->
-  <div class="skills-heroes-grid" id="skills_heroes_container">
-    <div class="loading-placeholder">
-      <div class="spinner"></div>
-      <p>Cargando datos maestros desde la base de datos...</p>
+  <!-- 2. Panel Principal: Nueva Build (Enmarcado igual que el bloque de abajo) -->
+  <section class="builder-main-panel" id="builder_main_panel" aria-label="Nueva Build">
+    <div class="builder-panel-header" id="builder_panel_header">
+      <div class="builder-panel-header-title" id="builder_header_title_cluster">
+        <svg class="builder-panel-title-icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
+        <span id="active_build_name_display" data-i18n="section_new_build">NUEVA BUILD</span>
+        <div id="active_build_meta_cluster" class="active-build-meta-cluster" style="display: none;">
+          <span id="active_build_purpose_pill" class="purpose-badge purpose-advance">Avance</span>
+          <span class="active-build-meta-sep">•</span>
+          <span id="active_build_author_display" class="active-build-author"></span>
+          <span class="active-build-meta-sep">•</span>
+          <span id="active_build_date_display" class="active-build-date"></span>
+        </div>
+      </div>
+      <div class="builder-panel-header-actions" id="active_build_actions_cluster" style="display: none;">
+          <!-- Botón de Enlace y Compartir -->
+          <button type="button" id="btn_share_active_build" class="btn-modern btn-modern-sec btn-xs" onclick="shareCurrentActiveBuild()" title="Copiar enlace o compartir build">
+            <svg class="tw-icon-xs" aria-hidden="true"><use href="#icon-share"></use></svg>
+            <span data-i18n="btn_share">Compartir</span>
+          </button>
+          <button type="button" class="btn-modern btn-modern-sec btn-xs" onclick="resetToNewBuildMode()" title="Limpiar y crear una nueva build">
+            <svg class="tw-icon-xs" aria-hidden="true"><use href="#icon-plus"></use></svg>
+            <span data-i18n="btn_new_build">Nueva Build</span>
+          </button>
+        </div>
+      </div>
+
+    <!-- Barra de Control Táctico Global (Botonera, Nivel y Puntos) -->
+    {% include "components/control_bar.html" %}
+
+    <!-- Selector Táctil de Héroes en Dispositivos Móviles (<768px) -->
+    {% include "components/mobile_hero_tabs.html" %}
+
+    <!-- Contenedor Principal: 5 Columnas de Héroes Distribuidas Uniformemente -->
+    <div class="skills-heroes-grid" id="skills_heroes_container">
+      <div class="loading-placeholder">
+        <div class="spinner"></div>
+        <p data-i18n="loading_master_data">Cargando datos maestros desde la base de datos...</p>
+      </div>
     </div>
-  </div>
+
+    <!-- Barra Inferior del Builder: Leyenda de Activas alineada al centro debajo del árbol -->
+    <div class="builder-bottom-bar">
+      <div class="mmo-footer-elements-legend builder-elements-legend" id="footer_elements_legend" aria-label="Leyenda de tipos de daño de habilidades activas">
+        <span class="footer-legend-title" data-i18n="legend_actives">ACTIVAS:</span>
+        <div class="footer-legend-items">
+          <span class="footer-legend-chip" data-i18n-title="elem_phys_desc" title="Habilidades de Daño Físico">
+            <div class="skill-active-badge elem-physical"><svg class="tw-active-icon" aria-hidden="true"><use href="#elem-physical"></use></svg></div>
+            <span class="footer-chip-name" data-i18n="elem_phys">Físico</span>
+          </span>
+          <span class="footer-legend-chip" data-i18n-title="elem_fire_desc" title="Habilidades de Daño de Fuego">
+            <div class="skill-active-badge elem-fire"><svg class="tw-active-icon" aria-hidden="true"><use href="#elem-fire"></use></svg></div>
+            <span class="footer-chip-name" data-i18n="elem_fire">Fuego</span>
+          </span>
+          <span class="footer-legend-chip" data-i18n-title="elem_cold_desc" title="Habilidades de Daño de Frío">
+            <div class="skill-active-badge elem-cold"><svg class="tw-active-icon" aria-hidden="true"><use href="#elem-cold"></use></svg></div>
+            <span class="footer-chip-name" data-i18n="elem_cold">Frío</span>
+          </span>
+          <span class="footer-legend-chip" data-i18n-title="elem_light_desc" title="Habilidades de Daño Eléctrico">
+            <div class="skill-active-badge elem-lightning"><svg class="tw-active-icon" aria-hidden="true"><use href="#elem-lightning"></use></svg></div>
+            <span class="footer-chip-name" data-i18n="elem_light">Rayo</span>
+          </span>
+          <span class="footer-legend-chip" data-i18n-title="elem_chaos_desc" title="Habilidades de Daño de Caos">
+            <div class="skill-active-badge elem-chaos"><svg class="tw-active-icon" aria-hidden="true"><use href="#elem-chaos"></use></svg></div>
+            <span class="footer-chip-name" data-i18n="elem_chaos">Caos</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Panel de Builds de la Comunidad (Votaciones y Filtros) -->
+  <section class="bottom-recent-builds-panel" id="bottom_recent_builds_panel" aria-label="Builds de la comunidad">
+    <div class="recent-builds-header">
+      <div class="recent-builds-header-title">
+        <svg class="recent-builds-title-icon" aria-hidden="true"><use href="#icon-book"></use></svg>
+        <span data-i18n="section_community_builds">BUILDS DE LA COMUNIDAD</span>
+      </div>
+
+      <!-- Controles de Ordenación -->
+      <div class="community-header-controls">
+        <div class="sort-selector-wrap">
+          <label for="community_sort_select" class="sort-select-label" data-i18n="sort_label">Ordenar:</label>
+          <select id="community_sort_select" class="community-sort-dropdown" onchange="changeCommunitySort(this.value)">
+            <option value="votes" selected data-i18n="sort_votes">Más votadas</option>
+            <option value="recent" data-i18n="sort_recent">Más recientes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="recent-builds-vertical-list" id="bottom_recent_builds_list">
+      <!-- Se puebla dinámicamente con máximo 5 builds ordenadas -->
+    </div>
+  </section>
+
+  <!-- 6. Pie de Página Táctico (Footer) -->
+  {% include "components/footer.html" %}
 
   <!-- Modales Desacoplados -->
   {% include "components/modal_save_build.html" %}
   {% include "components/modal_load_build.html" %}
+  {% include "components/modal_deletion_request.html" %}
   {% include "components/modal_share.html" %}
   {% include "components/modal_unspent_warning.html" %}
+  {% include "components/modal_confirm_reset.html" %}
+  {% include "components/modal_system_alert.html" %}
   {% include "components/floating_tooltip.html" %}
+
 </main>
 {% endblock %}

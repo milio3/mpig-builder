@@ -4,10 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ project_name }} - Planificador de Builds y Habilidades</title>
-  <link rel="stylesheet" href="/static/css/app.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f59e0b'><path d='M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z'/></svg>" />
+  <link rel="stylesheet" href="/static/css/app.css?v=1.4.2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Press+Start+2P&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg?v=1.4.2" />
 </head>
 <body>
+  <!-- Sprite SVG de Iconos Centralizado -->
+  {% include "components/icons.html" %}
+
   <div class="app-layout">
     {% block content %}{% endblock %}
   </div>
@@ -15,10 +21,16 @@
   <!-- Toast Notification Container -->
   <div id="skill_toast_notice" class="skill-toast-notice"></div>
 
-  <!-- Módulos JavaScript Desacoplados -->
-  <script src="/static/js/api_client.js"></script>
-  <script src="/static/js/skills_state.js"></script>
-  <script src="/static/js/build_manager.js"></script>
-  <script src="/static/js/ui.js"></script>
+  <!-- Módulos JavaScript Desacoplados y Seccionados por Funcionalidad -->
+  <script src="/static/js/i18n.js?v=1.4.2"></script>
+  <script src="/static/js/modules/ui_icons.js?v=1.4.2"></script>
+  <script src="/static/js/api_client.js?v=1.4.2"></script>
+  <script src="/static/js/skills_state.js?v=1.4.2"></script>
+  <script src="/static/js/build_manager.js?v=1.4.2"></script>
+  <script src="/static/js/modules/ui_tooltips.js?v=1.4.2"></script>
+  <script src="/static/js/modules/ui_modals.js?v=1.4.2"></script>
+  <script src="/static/js/modules/ui_handlers.js?v=1.4.2"></script>
+  <script src="/static/js/modules/ui_render.js?v=1.4.2"></script>
+  <script src="/static/js/ui.js?v=1.4.2"></script>
 </body>
 </html>

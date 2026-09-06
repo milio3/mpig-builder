@@ -7,10 +7,17 @@ Recupera de SQLite toda la información de héroes, habilidades y filas.
 import json
 from sqlalchemy.orm import Session
 from app.models.hero import Hero, Ability, RowConfig
-from app.schemas.meta import GameMetaResponse, HeroDTO, AbilityDTO, HeroActiveDTO, RowConfigDTO
+from app.schemas.meta import GameMetaResponse, AbilityDTO, HeroDTO, HeroActiveDTO, RowConfigDTO
 
-def get_game_metadata(db: Session) -> GameMetaResponse:
+_CACHED_GAME_METADATA = None
+
+def get_game_metadata(db: Session, force_reload: bool = False) -> GameMetaResponse:
+    global _CACHED_GAME_METADATA
+    if _CACHED_GAME_METADATA is not None and not force_reload:
+        return _CACHED_GAME_METADATA
+
     # 1. Habilidades
+
     abilities_db = db.query(Ability).all()
     abilities_dict = {
         str(a.id): AbilityDTO.model_validate(a) for a in abilities_db
@@ -59,7 +66,7 @@ def get_game_metadata(db: Session) -> GameMetaResponse:
         active_group_by_row.append(r.active_group)
         passive_ids_by_row.append(slots)
 
-    return GameMetaResponse(
+    _CACHED_GAME_METADATA = GameMetaResponse(
         heroes=heroes_dict,
         abilities=abilities_dict,
         rows=rows_list,
@@ -67,3 +74,5 @@ def get_game_metadata(db: Session) -> GameMetaResponse:
         active_group_by_row=active_group_by_row,
         passive_ids_by_row=passive_ids_by_row
     )
+    return _CACHED_GAME_METADATA
+
